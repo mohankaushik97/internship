@@ -1,5 +1,4 @@
 import datetime
-
 import openpyxl
 
 date_row = 1
@@ -8,7 +7,6 @@ emp_column = 2
 
 def main(emp_name):
     update_attendance(emp_name)
-    save_file()
 
 
 def sheet():
@@ -39,14 +37,6 @@ def date_and_time():
     return date, time
 
 
-def save_file():
-    sheet_name = sheet()
-    file = openpyxl.load_workbook('tracker.xlsx')
-    current_sheet = file[sheet_name]
-
-    file.save('tracker.xlsx')
-
-
 def current():
     sheet_name = sheet()
     file = openpyxl.load_workbook('tracker.xlsx')
@@ -57,7 +47,9 @@ def current():
 
 
 def update_attendance(emp_name):
-    current_sheet = current()
+    sheet_name = sheet()
+    file = openpyxl.load_workbook('tracker.xlsx')
+    current_sheet = file[sheet_name]
 
     emp_row = find_emp(emp_name)
     date, time = date_and_time()
@@ -78,6 +70,7 @@ def update_attendance(emp_name):
                 cell_updater.value = str(time)
                 print("Login location: " + str(cell_updater))
                 print("login time: " + cell_updater.value)
+    file.save('tracker.xlsx')
 
 
 def find_emp(emp_name):
